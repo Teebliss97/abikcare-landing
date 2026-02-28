@@ -318,32 +318,33 @@
     /* ── Floating Cards ── */
     .floating-cards {
       position: absolute;
-      left: calc(580px + 6%);
+      left: 55%;
       top: 0;
       bottom: 0;
-      width: 220px;
+      width: 210px;
+      transform: translateX(-50%);
       z-index: 3;
       pointer-events: none;
     }
 
     .float-card {
       position: absolute;
-      width: 210px;
+      width: 200px;
       background: rgba(255,255,255,0.06);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(201,168,76,0.2);
       border-radius: 16px;
-      padding: 14px 16px;
+      padding: 13px 15px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
 
-    .float-card.card-1 { top: 12%;  left: 0;   animation: floatA 4s ease-in-out infinite; }
-    .float-card.card-2 { top: 30%;  left: 20px; animation: floatB 5s ease-in-out infinite 0.8s; }
+    .float-card.card-1 { top: 10%;  left: 0;   animation: floatA 4s ease-in-out infinite; }
+    .float-card.card-2 { top: 30%;  left: 15px; animation: floatB 5s ease-in-out infinite 0.8s; }
     .float-card.card-3 { top: 52%;  left: 0;   animation: floatA 4.5s ease-in-out infinite 1.4s; }
-    .float-card.card-4 { top: 70%;  left: 20px; animation: floatB 3.8s ease-in-out infinite 0.4s; }
+    .float-card.card-4 { top: 72%;  left: 15px; animation: floatB 3.8s ease-in-out infinite 0.4s; }
 
     @keyframes floatA {
       0%, 100% { transform: translateY(0px); }
