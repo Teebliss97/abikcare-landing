@@ -315,6 +315,92 @@
       margin-top: 2px;
     }
 
+    /* ── Floating Cards ── */
+    .floating-cards {
+      position: absolute;
+      left: 3%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .float-card {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .float-card.card-1 { animation: floatA 4s ease-in-out infinite; }
+    .float-card.card-2 { animation: floatB 5s ease-in-out infinite 0.8s; }
+    .float-card.card-3 { animation: floatA 4.5s ease-in-out infinite 1.4s; }
+    .float-card.card-4 { animation: floatB 3.8s ease-in-out infinite 0.4s; }
+
+    @keyframes floatA {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+    @keyframes floatB {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(10px); }
+    }
+
+    .float-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .float-icon.green { background: rgba(22,163,74,0.2); border: 1px solid rgba(22,163,74,0.3); }
+    .float-icon.gold  { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3); }
+
+    .float-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .float-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .float-value.gold-text { color: var(--gold); }
+    .float-value.green-text { color: #22c55e; }
+
+    .float-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
+      flex-shrink: 0;
+      animation: pulse 2s ease infinite;
+    }
+
+    /* Live counter inside card */
+    .float-counter {
+      font-size: 22px;
+      font-weight: 900;
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    @media (max-width: 1100px) {
+      .floating-cards { display: none; }
+    }
+
     /* Hero visual side */
     .hero-visual {
       position: absolute;
@@ -491,7 +577,7 @@
       transform: translateY(0);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
-    .js-loaded .reveal {
+    .reveal.hidden-init {
       opacity: 0;
       transform: translateY(30px);
     }
@@ -982,6 +1068,49 @@
       </div>
     </div>
 
+    <!-- ── Floating Cards ── -->
+    <div class="floating-cards">
+
+      <!-- Card 1: Live order notification -->
+      <div class="float-card card-1">
+        <div class="float-icon green">🛒</div>
+        <div>
+          <div class="float-label">New Order</div>
+          <div class="float-value green-text">Just Placed!</div>
+        </div>
+        <div class="float-dot"></div>
+      </div>
+
+      <!-- Card 2: Live stat counter -->
+      <div class="float-card card-2">
+        <div class="float-icon gold">📦</div>
+        <div>
+          <div class="float-label">Orders Today</div>
+          <div class="float-counter" id="live-orders-today">0</div>
+        </div>
+      </div>
+
+      <!-- Card 3: Rating -->
+      <div class="float-card card-3">
+        <div class="float-icon gold">⭐</div>
+        <div>
+          <div class="float-label">App Rating</div>
+          <div class="float-value gold-text">4.9 / 5.0</div>
+        </div>
+      </div>
+
+      <!-- Card 4: Delivery status -->
+      <div class="float-card card-4">
+        <div class="float-icon green">🚚</div>
+        <div>
+          <div class="float-label">Delivery Status</div>
+          <div class="float-value green-text">On the way!</div>
+        </div>
+        <div class="float-dot"></div>
+      </div>
+
+    </div>
+
     <!-- Phone Mockup -->
     <div class="hero-visual">
       <div style="position:relative;">
@@ -1278,8 +1407,8 @@
     <div class="footer-bottom">
       <span>© 2026 AbikCare. All rights reserved.</span>
       <span>
-        <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
-        <a href="#">Terms of Service</a>
+        <a href="/privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
+        <a href="/terms-and-conditions.html">Terms of Service</a>
       </span>
     </div>
   </footer>
@@ -1290,20 +1419,50 @@
       document.getElementById('navLinks').classList.toggle('open');
     }
 
-    // ── Scroll Reveal ──
-    document.body.classList.add('js-loaded');
+    // ── Scroll Reveal (with fallback) ──
+    const revealEls = document.querySelectorAll('.reveal');
+
+    // Mark elements as hidden only after DOM is ready
+    revealEls.forEach(el => el.classList.add('hidden-init'));
 
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
+          entry.target.classList.remove('hidden-init');
+          revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    revealEls.forEach(el => revealObserver.observe(el));
 
-    // ── Nav shadow on scroll ──
+    // Fallback: if anything still hidden after 2s, force show it
+    setTimeout(() => {
+      document.querySelectorAll('.reveal.hidden-init').forEach(el => {
+        el.classList.add('visible');
+        el.classList.remove('hidden-init');
+      });
+    }, 2000);
+
+    // ── Live Orders Today counter ──
+    const liveEl = document.getElementById('live-orders-today');
+    if (liveEl) {
+      const target = Math.floor(Math.random() * 30) + 15;
+      let current = 0;
+      const tick = setInterval(() => {
+        current++;
+        liveEl.textContent = current;
+        if (current >= target) {
+          clearInterval(tick);
+          setInterval(() => {
+            current++;
+            liveEl.textContent = current;
+          }, Math.random() * 7000 + 8000);
+        }
+      }, 60);
+    }
+
     window.addEventListener('scroll', () => {
       const nav = document.getElementById('navbar');
       if (window.scrollY > 50) {
