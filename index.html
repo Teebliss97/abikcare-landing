@@ -889,12 +889,12 @@
     // ── Live stats ──
     async function loadStats() {
       try {
-        const res  = await fetch(`${API_BASE}/admin/stats`);
+        const res  = await fetch(`${API_BASE}/admin/public-stats`);
         const data = await res.json();
         const elC  = document.getElementById('stat-customers');
         const elO  = document.getElementById('stat-orders');
-        if (elC) animateCounter(elC, data.totalUsers  || data.users  || 0, '+');
-        if (elO) animateCounter(elO, data.totalOrders || data.orders || 0, '+');
+        if (elC) animateCounter(elC, data?.data?.totalUsers  || 0, '+');
+        if (elO) animateCounter(elO, data?.data?.totalOrders || 0, '+');
       } catch {
         const elC = document.getElementById('stat-customers');
         const elO = document.getElementById('stat-orders');
