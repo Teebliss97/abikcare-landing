@@ -971,6 +971,7 @@
       }
     }
 
+    // Load marquee immediately on page load
     loadMarquee();
 
     // ════════════════════════════════════════
@@ -1078,4 +1079,17 @@
     }
 
     // Load products when section scrolls into view
-    const prodObs = new Intersection
+    const prodObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { loadProducts(); prodObs.disconnect(); } });
+    }, { threshold: 0.05 });
+    const prodSection = document.getElementById('products');
+    if (prodSection) prodObs.observe(prodSection);
+
+    // Load both immediately on page load too
+    loadMarquee();
+    loadProducts();
+
+  </script>
+
+</body>
+</html>
