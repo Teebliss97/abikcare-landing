@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delete Account — AbikCare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep:  #0a1f0f;
+      --green-dark:  #112a16;
+      --green-brand: #16a34a;
+      --gold:        #c9a84c;
+      --gold-light:  #e8c97a;
+      --white:       #ffffff;
+      --text-muted:  #9ca3af;
+      --red:         #ef4444;
+      --red-soft:    rgba(239,68,68,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--green-deep);
+      color: var(--white);
+      line-height: 1.7;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 31, 15, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .nav-logo-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 20px; font-weight: 700; color: var(--white);
+    }
+    .nav-logo-text span { color: var(--gold); }
+    .nav-back {
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+    .nav-back:hover { opacity: 0.7; }
+
+    /* ── Hero ── */
+    .page-hero {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-deep) 100%);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      padding: 64px 40px 56px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .page-tag {
+      display: inline-block;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      color: #f87171;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 560px;
+    }
+
+    /* ── Content ── */
+    .content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 40px 96px;
+    }
+
+    .warning-box {
+      background: rgba(239,68,68,0.07);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 48px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .warning-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .warning-box p {
+      color: #fca5a5;
+      font-size: 15px;
+      margin: 0;
+    }
+    .warning-box p strong { color: #fecaca; }
+
+    .section {
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    p {
+      color: #d1d5db;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    /* Numbered steps */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(201,168,76,0.12);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      color: var(--green-deep);
+      font-weight: 700;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-body { flex: 1; }
+    .step-title {
+      font-weight: 600;
+      color: var(--white);
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .step-desc {
+      color: #9ca3af;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    /* Data table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .data-table th {
+      background: rgba(201,168,76,0.1);
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 12px 16px;
+      text-align: left;
+    }
+    .data-table td {
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #d1d5db;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(255,255,255,0.02);
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-deleted {
+      background: rgba(239,68,68,0.12);
+      color: #f87171;
+    }
+    .badge-kept {
+      background: rgba(201,168,76,0.12);
+      color: var(--gold);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    ul li {
+      color: #d1d5db;
+      font-size: 15px;
+      padding-left: 20px;
+      position: relative;
+    }
+    ul li::before {
+      content: '→';
+      color: var(--gold);
+      position: absolute;
+      left: 0;
+      font-size: 13px;
+    }
+    ul li strong, p strong { color: var(--white); }
+
+    .contact-box {
+      background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(22,163,74,0.06) 100%);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-top: 8px;
+    }
+    .contact-box p { margin: 0 0 6px; font-size: 15px; }
+    .contact-box p:last-child { margin: 0; }
+    .contact-box a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .contact-box a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    .page-footer {
+      border-top: 1px solid rgba(201,168,76,0.12);
+      padding: 32px 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .page-footer a { color: var(--gold); text-decoration: none; }
+    .page-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .page-hero { padding: 48px 20px 40px; }
+      .content { padding: 40px 20px 72px; }
+      .page-footer { padding: 24px 20px; }
+      .data-table th, .data-table td { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">🛒</div>
+      <span class="nav-logo-text">Abik<span>Care</span></span>
+    </a>
+    <a href="/" class="nav-back">← Back to Home</a>
+  </nav>
+
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="page-tag">Account Management</div>
+    <h1 class="page-title">Delete Your Account</h1>
+    <p class="page-subtitle">You can request deletion of your AbikCare account and personal data at any time. Follow the steps below.</p>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <div class="warning-box">
+      <div class="warning-icon">⚠️</div>
+      <p><strong>This action is permanent.</strong> Once your account is deleted, your profile, order history, and personal data cannot be recovered. Please read the information below before proceeding.</p>
+    </div>
+
+    <!-- How to delete -->
+    <div class="section">
+      <h2>How to Delete Your Account</h2>
+      <p>You can delete your account directly from within the AbikCare mobile app:</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Open the AbikCare app</div>
+            <p class="step-desc">Launch the app on your Android or iOS device and sign in to your account.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Go to your Profile</div>
+            <p class="step-desc">Tap the <strong>Profile</strong> tab at the bottom of the screen.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Tap "Delete Account"</div>
+            <p class="step-desc">Scroll to the bottom of the Profile screen and tap <strong>Delete Account</strong>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Confirm your decision</div>
+            <p class="step-desc">You will be asked to confirm. Once confirmed, your account deletion will be processed immediately.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Can't access app -->
+    <div class="section">
+      <h2>Can't Access the App?</h2>
+      <p>If you are unable to access the app, you can request account deletion by emailing us directly. Include your registered email address or phone number so we can locate your account.</p>
+      <div class="contact-box">
+        <p><strong>Email us at:</strong></p>
+        <p><a href="mailto:Abikcare.hs@gmail.com">Abikcare.hs@gmail.com</a></p>
+        <p style="margin-top:10px; color: #9ca3af; font-size:14px;">We will process your request within <strong style="color:#d1d5db;">7 business days</strong> and send a confirmation to your registered email address.</p>
+      </div>
+    </div>
+
+    <!-- What gets deleted -->
+    <div class="section">
+      <h2>What Data Is Deleted or Kept</h2>
+      <p>When your account is deleted, here is what happens to each type of data:</p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Data Type</th>
+            <th>Action</th>
+            <th>Retention Period</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Name, email, phone number</td>
+            <td><span class="badge badge-deleted">Deleted</span></td>
+            <td>Immediately</td>
+          </tr>
+          <tr>
+            <td>Delivery addresses</td>
+            <td><span class="badge badge-deleted">Deleted</span></td>
+            <td>Immediately</td>
+          </tr>
+          <tr>
+            <td>Password (hashed)</td>
+            <td><span class="badge badge-deleted">Deleted</span></td>
+            <td>Immediately</td>
+          </tr>
+          <tr>
+            <td>Cart & saved items</td>
+            <td><span class="badge badge-deleted">Deleted</span></td>
+            <td>Immediately</td>
+          </tr>
+          <tr>
+            <td>Order records</td>
+            <td><span class="badge badge-kept">Kept</span></td>
+            <td>Up to 7 years (legal/financial compliance)</td>
+          </tr>
+          <tr>
+            <td>Payment references</td>
+            <td><span class="badge badge-kept">Kept</span></td>
+            <td>Up to 7 years (legal/financial compliance)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 16px; font-size: 14px; color: #6b7280;">Order records and payment references are retained to meet Nigerian financial and tax regulations. These records do not include card details — AbikCare never stores card information.</p>
+    </div>
+
+    <!-- After deletion -->
+    <div class="section">
+      <h2>After Deletion</h2>
+      <ul>
+        <li>You will be signed out of the AbikCare app immediately</li>
+        <li>You will not be able to sign in or recover your account</li>
+        <li>Any pending orders at time of deletion may still be fulfilled</li>
+        <li>You can create a new account in the future with the same email address</li>
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div class="section">
+      <h2>Contact Us</h2>
+      <p>For any questions about account deletion or your personal data, reach us at:</p>
+      <div class="contact-box">
+        <p><strong>AbikCare (Nigeria)</strong></p>
+        <p>Email: <a href="mailto:Abikcare.hs@gmail.com">Abikcare.hs@gmail.com</a></p>
+        <p>Address: Opp. School Gate, Iworoko, Ekiti State</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <p>© 2026 AbikCare. All rights reserved. &nbsp;·&nbsp; <a href="/privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="/terms-and-conditions.html">Terms & Conditions</a></p>
+  </div>
+
+</body>
+</html>
